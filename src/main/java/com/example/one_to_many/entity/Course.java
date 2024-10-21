@@ -1,5 +1,6 @@
 package com.example.one_to_many.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,6 +17,7 @@ public class Course {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "instructor_id")
+    @JsonBackReference
     private Instructor instructor;
 
 

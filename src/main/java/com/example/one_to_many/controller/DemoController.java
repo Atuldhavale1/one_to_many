@@ -1,8 +1,11 @@
+
 package com.example.one_to_many.controller;
 
+import com.example.one_to_many.entity.Course;
 import com.example.one_to_many.entity.Instructor;
 import com.example.one_to_many.entity.InstructorDetail;
 import com.example.one_to_many.repository.AppDao;
+
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +14,17 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 public class DemoController {
+
     private final AppDao appDao;
 
     @PostMapping("/save")
     public Instructor saveInstructor(@RequestBody Instructor instructor) {
+
+        List<Course> courses = instructor.getCourses();
+
+        for (Course course : courses) {
+            course.setInstructor(instructor);
+        }
 
         return appDao.saveInstructor(instructor);
     }
@@ -44,9 +54,6 @@ public class DemoController {
             InstructorDetail updatedInstructorDetail = instructor.getInstructorDetail();
             updatedInstructorDetail.setInstructorDetailId(savedInstructor.getInstructorDetail().getInstructorDetailId());
 
-
-            appDao.saveInstructorDetail(updatedInstructorDetail);
-
             instructor.setInstructorId(savedInstructor.getInstructorId());
             instructor.setInstructorDetail(updatedInstructorDetail);
 
@@ -73,6 +80,7 @@ public class DemoController {
         return appDao.saveInstructor(instructor);
 
     }
+
     @DeleteMapping("/delete-detail/{instructorDetailId}")
     public String deleteByInstructorDetailId(@PathVariable int instructorDetailId) {
         String message = appDao.deleteInstructorDetailById(instructorDetailId);
@@ -86,5 +94,4 @@ public class DemoController {
 
         return appDao.updateInstrutorDetail(instructorId, instructorDetail);
     }
-
 }
