@@ -1,14 +1,17 @@
 package com.example.one_to_many.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
+@ToString(exclude = {"courses"})
 public class Instructor {
 
     @Id
@@ -29,6 +32,7 @@ public class Instructor {
     //    Many Courses
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "instructor")
     @JsonManagedReference
+    @JsonIgnore
     private List<Course> courses;
 
 
