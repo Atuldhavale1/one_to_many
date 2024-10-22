@@ -1,9 +1,11 @@
 package com.example.one_to_many.repository;
 
+import com.example.one_to_many.entity.Course;
 import com.example.one_to_many.entity.Instructor;
 
 import com.example.one_to_many.entity.InstructorDetail;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -99,6 +101,15 @@ public InstructorDetail findInstructorDetailById(int instructorDetailId) {
         }
     }
 
+    public List<Course> findCoursesByInstructorId(int instructorId) {
+        TypedQuery<Course> query =  entityManager.createQuery("from Course where instructor.instructorId = :data", Course.class);
+
+        query.setParameter("data", instructorId);
+
+        List<Course> courses = query.getResultList();
+
+        return courses;
+    }
 }
 
 

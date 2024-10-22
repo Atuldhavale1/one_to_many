@@ -99,15 +99,13 @@ public class DemoController {
 
         return appDao.updateInstrutorDetail(instructorId, instructorDetail);
     }
-    //    Finding courses based on instructorId
-    @GetMapping("/getcoursesbyid/{instructorId}")
-    public List<Course> getCoursesByInstructorId(@PathVariable int instructorId) {
 
-        Instructor instructor = appDao.getInstructorById(instructorId);
+@GetMapping("/getcoursesbyid/{instructorId}")
+public List<Course> getCoursesByInstructorId(@PathVariable int instructorId) {
 
-//        System.out.println(instructor);
-//        System.out.println(instructor.getCourses());
-        return instructor.getCourses();
-    }
+    List<Course> courses= appDao.findCoursesByInstructorId(instructorId); // Instructor + InstructorDetail
+
+    return courses;
+}
 
 }
