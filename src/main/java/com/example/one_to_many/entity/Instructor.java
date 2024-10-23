@@ -30,19 +30,19 @@ public class Instructor {
     private InstructorDetail instructorDetail;
 
     //    Many Courses
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "instructor")
+    @OneToMany(mappedBy = "instructor", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     @JsonManagedReference
-    @JsonIgnore
+//    @JsonIgnore
     private List<Course> courses;
 
 
     void addCourse(Course course) {
-        if(courses == null)
-        {
+        if (courses == null) {
             courses = new ArrayList<Course>();
         }
         courses.add(course);
         course.setInstructor(this);
 
     }
+
 }

@@ -35,8 +35,11 @@ public class AppDao {
     public String deleteInstructorById(int instructorId) {
         Instructor instructor = getInstructorById(instructorId);
         if (instructor != null) {
+            List<Course> courses = instructor.getCourses();
+            for (Course course : courses) {
+                course.setInstructor(null);
+            }
             entityManager.remove(instructor);
-//            entityManager.remove(instructor.getInstructorDetail());
             return "Deleted successfully";
         } else {
             return "Not Found!!";
@@ -109,6 +112,16 @@ public InstructorDetail findInstructorDetailById(int instructorDetailId) {
         List<Course> courses = query.getResultList();
 
         return courses;
+    }
+
+    public Instructor findInstructorJoinFetch(int instructorId) {
+
+        TypedQuery<Instructor> query =  entityManager.createQuery("from Instructor i join fetch i.courses join fetch i.instructorDetail  where i.instructorId = :data", Instructor.class);
+
+        query.setParameter("data", instructorId);
+
+        Instructor instructor = query.getSingleResult();
+        return instructor;
     }
 }
 

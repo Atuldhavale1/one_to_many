@@ -1,11 +1,9 @@
-
 package com.example.one_to_many.controller;
 
 import com.example.one_to_many.entity.Course;
 import com.example.one_to_many.entity.Instructor;
 import com.example.one_to_many.entity.InstructorDetail;
 import com.example.one_to_many.repository.AppDao;
-
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +34,7 @@ public class DemoController {
 
         System.out.println(instructor);
 //        System.out.println("Courses:- " +instructor.getCourses());
-        return appDao.getInstructorById(instructorId);
+        return instructor;
     }
 
     @GetMapping("/getall")
@@ -100,12 +98,23 @@ public class DemoController {
         return appDao.updateInstrutorDetail(instructorId, instructorDetail);
     }
 
-@GetMapping("/getcoursesbyid/{instructorId}")
-public List<Course> getCoursesByInstructorId(@PathVariable int instructorId) {
+    //    Finding courses based on instructorId
+    @GetMapping("/getcoursesbyid/{instructorId}")
+    public List<Course> getCoursesByInstructorId(@PathVariable int instructorId) {
 
-    List<Course> courses= appDao.findCoursesByInstructorId(instructorId); // Instructor + InstructorDetail
+        List<Course> courses= appDao.findCoursesByInstructorId(instructorId); // Instructor + InstructorDetail
 
-    return courses;
-}
+        return courses;
+    }
+
+    @GetMapping("/getinstructorjoinfetch/{instructorId}")
+    public Instructor getInstructorJoinFetch(@PathVariable int instructorId) {
+
+        Instructor instructor= appDao.findInstructorJoinFetch(instructorId); // Instructor + InstructorDetail
+
+
+
+        return instructor;
+    }
 
 }

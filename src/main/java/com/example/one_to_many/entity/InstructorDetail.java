@@ -11,11 +11,11 @@ import lombok.ToString;
 @ToString(exclude = {"instructor"})
 public class InstructorDetail {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     /*
      * ALTER TABLE instructor_details AUTO_INCREMENT = 1001;
      * */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int instructorDetailId;
 
     private String hobby;
@@ -24,7 +24,7 @@ public class InstructorDetail {
 
     @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} ,mappedBy = "instructorDetail")
     @JsonBackReference
-    @JsonIgnore
     private Instructor instructor;
+
 
 }
