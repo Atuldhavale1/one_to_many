@@ -7,6 +7,7 @@ import com.example.one_to_many.repository.AppDao;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.ClientInfoStatus;
 import java.util.List;
 
 @RestController
@@ -112,9 +113,21 @@ public class DemoController {
 
         Instructor instructor= appDao.findInstructorJoinFetch(instructorId); // Instructor + InstructorDetail
 
-
-
         return instructor;
     }
+
+    @GetMapping("/getcourses")
+      public List<Course>getCorses(){
+        return appDao.findAllCourses();
+    }
+
+    @PutMapping("/updatecourse/{courseId}")
+    public String updateCourse(@PathVariable int courseId, @RequestBody Course course) {
+
+        return appDao.updateCourse(courseId, course);
+
+    }
+
+
 
 }
