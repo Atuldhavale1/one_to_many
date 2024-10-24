@@ -19,10 +19,13 @@ public class DemoController {
     @PostMapping("/save")
     public Instructor saveInstructor(@RequestBody Instructor instructor) {
 
-        List<Course> courses = instructor.getCourses();
-
-        for (Course course : courses) {
-            course.setInstructor(instructor);
+        if (instructor.getCourses() != null) {
+            List<Course> courses = instructor.getCourses();
+            for (Course course : courses) {
+                course.setInstructor(instructor);
+            }
+        } else {
+            instructor.setCourses(null);
         }
 
         return appDao.saveInstructor(instructor);
@@ -126,6 +129,12 @@ public class DemoController {
 
         return appDao.updateCourse(courseId, course);
 
+    }
+
+    @PutMapping("/updateinstructorincourse/{instructorId}/{courseId}")
+    public String updateInstructorForCourse(@PathVariable int instructorId, @PathVariable int courseId) {
+
+        return appDao.updateInstructorInCourse(instructorId,courseId);
     }
 
 

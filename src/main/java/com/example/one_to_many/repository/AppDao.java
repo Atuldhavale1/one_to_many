@@ -144,6 +144,25 @@ public InstructorDetail findInstructorDetailById(int instructorDetailId) {
 
         return courses;
     }
+
+    @Transactional
+    public String updateInstructorInCourse(int instructorId, int courseId) {
+
+        Course dbCOurse = entityManager.find(Course.class, courseId);
+        Instructor instructor = getInstructorById(instructorId);
+        if (dbCOurse != null && instructor != null) {
+            dbCOurse.setInstructor(instructor);
+
+            entityManager.merge(dbCOurse);
+            return "Update successfull";
+        } else if (dbCOurse == null) {
+
+            return "Course with id " + courseId + " not found";
+        } else {
+            return "Instructor with id " + instructorId + " not found";
+
+        }
+    }
 }
 
 
